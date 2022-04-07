@@ -152,6 +152,7 @@
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
