@@ -6,6 +6,8 @@
 #include "Component.h"
 #endif
 
+#define MESHRENDERER_H
+
 
 /// <summary>
 /// Uses RENDERINGENGINE to render a mesh to the render target.

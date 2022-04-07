@@ -27,5 +27,7 @@
 #define SCREEN_HEIGHT 1080
 #define WINDOW_CLASS_NAME L"NathcatsGameEngine"
 
+using namespace DirectX;
+
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int cmdShow);
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
