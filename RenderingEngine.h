@@ -6,6 +6,10 @@
 #include "GameObject.h"
 #endif
 
+#ifndef MESHRENDERER_H
+#include "MeshRenderer.h"
+#endif
+
 #include <vector>
 
 
@@ -93,7 +97,34 @@ public:
 	/// 
 	/// Required tasks:
 	///  - MeshRenderer class
-	///  - Matrix transforms
+	///  - Shader input struct/class
 	/// </summary>
-	void RenderFrame(std::vector<GameObject> gameObjects);
+	void RenderFrame(std::vector<GameObject> gameObjects) {
+		for (int i = 0; i < gameObjects.size(); i++) {
+			GameObject gameObject = gameObjects.at(i);
+			Component* component = gameObject.GetComponent<MeshRenderer>();
+			MeshRenderer* meshRenderer;
+
+			if (component != nullptr) {
+				meshRenderer = (MeshRenderer*) component;
+			}
+			else {
+				continue;
+			}
+
+			ID3D11Buffer* vertexBuffer = meshRenderer->CreateVertexBuffer();
+
+			meshRenderer->material->pShader->SetAsActiveShader(devcon);
+
+			UINT stride;// = sizeof(SHADERINPUTVERTEX);
+			UINT offset = 0;
+			devcon->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+			devcon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+			devcon->Draw(meshRenderer->mesh->numberOfVertices, 0);
+
+			// Render the back buffer to the screen
+			swapchain->Present(0, 0);
+		}
+	}
 };
