@@ -10,6 +10,10 @@
 #include "MeshRenderer.h"
 #endif
 
+#ifndef CAMERA_H
+#include "Camera.h"
+#endif
+
 #include <vector>
 
 
@@ -21,6 +25,7 @@ public:
 	IDXGISwapChain* swapchain;                // DXGI swapchain
 	ID3D11RenderTargetView* backbuffer;       // The backbuffer render target
 	D3D11_VIEWPORT viewport;                  // The viewport
+	Camera camera;                            // Active camera
 
 	/// <summary>
 	/// Constructor with windowHandle parameter.
@@ -92,12 +97,6 @@ public:
 
 	/// <summary>
 	/// Render a frame to the render target.
-	/// 
-	/// TODO
-	/// 
-	/// Required tasks:
-	///  - MeshRenderer class
-	///  - Shader input struct/class
 	/// </summary>
 	void RenderFrame(std::vector<GameObject> gameObjects) {
 		for (int i = 0; i < gameObjects.size(); i++) {
@@ -112,9 +111,13 @@ public:
 				continue;
 			}
 
-			ID3D11Buffer* vertexBuffer = meshRenderer->CreateVertexBuffer();
+			Transform* transform = (Transform*)gameObject.GetComponent<Transform>();
+
+			ID3D11Buffer* vertexBuffer = meshRenderer->CreateVertexBuffer(dev, devcon);
+			ID3D11Buffer* transformMatricesBuffer = meshRenderer->CreateTransformMatricesBuffer(*transform, camera, dev, devcon);
 
 			meshRenderer->material->pShader->SetAsActiveShader(devcon);
+			devcon->VSSetConstantBuffers(0, 1, &transformMatricesBuffer);
 
 			UINT stride = meshRenderer->material->GetSizeOfElementsArray();
 			UINT offset = 0;
