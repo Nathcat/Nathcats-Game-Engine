@@ -116,7 +116,7 @@ public:
 
 			meshRenderer->material->pShader->SetAsActiveShader(devcon);
 
-			UINT stride;// = sizeof(SHADERINPUTVERTEX);
+			UINT stride = meshRenderer->material->GetSizeOfElementsArray();
 			UINT offset = 0;
 			devcon->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 			devcon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
