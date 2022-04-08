@@ -13,6 +13,8 @@ public:
 	ID3D11VertexShader* pVS;
 	ID3D11PixelShader* pPS;
 	ID3D11InputLayout* pLayout;
+	D3D11_INPUT_ELEMENT_DESC* pInputLayoutDesc;
+	int numberOfElements;
 
 	Shader(ID3D11Device* dev, LPCWSTR filename, LPSTR vertexShaderName, LPSTR pixelShaderName, D3D11_INPUT_ELEMENT_DESC* desc, int numberOfElementsInDesc) {
 		// Compile the vertex and pixel shaders from the shader file
@@ -26,6 +28,8 @@ public:
 		dev->CreatePixelShader(PS->GetBufferPointer(), PS->GetBufferSize(), NULL, &(Shader::pPS));
 
 		// Create the input layout
+		numberOfElements = numberOfElementsInDesc;
+		pInputLayoutDesc = desc;
 		dev->CreateInputLayout(desc, numberOfElementsInDesc, VS->GetBufferPointer(), VS->GetBufferSize(), &(Shader::pLayout));
 	}
 	~Shader() {
