@@ -147,11 +147,13 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Nathcat%27s Game Engine.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>

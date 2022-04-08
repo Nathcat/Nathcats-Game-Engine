@@ -9,7 +9,7 @@
 #include <vector>
 
 
-class RENDERINGENGINE {
+class RenderingEngine {
 public:
 	HWND hWnd;                                // Window handle
 	ID3D11Device* dev;                        // DirectX device
@@ -22,7 +22,7 @@ public:
 	/// Constructor with windowHandle parameter.
 	/// </summary>
 	/// <param name="windowHandle">Window handle</param>
-	RENDERINGENGINE(HWND windowHandle) {
+	RenderingEngine(HWND windowHandle) {
 		hWnd = windowHandle;                                    // Assign the window handle
 
 		DXGI_SWAP_CHAIN_DESC scd;                               // Create a struct to hold information about the swap chain
@@ -78,7 +78,7 @@ public:
 	/// <summary>
 	/// Default destructor, releases the memory used by DirectX.
 	/// </summary>
-	~RENDERINGENGINE() {
+	~RenderingEngine() {
 		swapchain->SetFullscreenState(FALSE, NULL);
 		swapchain->Release();
 		dev->Release();

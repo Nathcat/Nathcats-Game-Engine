@@ -21,7 +21,7 @@
 class GameEngine {
 public:
 	HWND hWnd;                            // Window handle
-	RENDERINGENGINE* pRenderer;           // Pointer to the renderer
+	RenderingEngine* pRenderer;           // Pointer to the renderer
 	std::vector<GameObject> gameObjects;  // Arraylist containing all game objects.
 
 	/// <summary>
@@ -30,7 +30,7 @@ public:
 	/// <param name="windowHandle">Handle for the window</param>
 	GameEngine(HWND windowHandle) {
 		hWnd = windowHandle;
-		pRenderer = new RENDERINGENGINE(hWnd);
+		pRenderer = new RenderingEngine(hWnd);
 	};
 
 	/// <summary>
