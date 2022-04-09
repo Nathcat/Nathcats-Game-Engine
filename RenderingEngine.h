@@ -115,9 +115,11 @@ public:
 
 			ID3D11Buffer* vertexBuffer = meshRenderer->CreateVertexBuffer(dev, devcon);
 			ID3D11Buffer* transformMatricesBuffer = meshRenderer->CreateTransformMatricesBuffer(*transform, camera, dev, devcon);
+			ID3D11Buffer* materialConstantsBuffer = meshRenderer->material->CreateConstantsBuffer(dev, devcon);
 
 			meshRenderer->material->pShader->SetAsActiveShader(devcon);
 			devcon->VSSetConstantBuffers(0, 1, &transformMatricesBuffer);
+			devcon->PSSetConstantBuffers(1, 1, &materialConstantsBuffer);
 
 			UINT stride = meshRenderer->material->GetSizeOfElementsArray();
 			UINT offset = 0;

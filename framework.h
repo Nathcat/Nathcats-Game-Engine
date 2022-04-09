@@ -33,3 +33,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 const float pi = (float)atan(1) * 4;
+
+#include "GameEngine.h"
+
+GameEngine* pGameEngine;

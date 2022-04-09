@@ -83,16 +83,46 @@ public:
 	/// <returns>std::size_t type, the size of the elements array.</returns>
 	std::size_t GetSizeOfElementsArray() {
 		std::size_t result;
-		
+
 		for (int i = 0; i < pShader->numberOfElements; i++) {
 			if ((pShader->pInputLayoutDesc + i)->Format == SHADERINPUT_R32G32B32_FLOAT) {
-				result += (std::size_t) 12;
+				result += (std::size_t)12;
 			}
 			else if ((pShader->pInputLayoutDesc + i)->Format == SHADERINPUT_R32G32B32A32_FLOAT) {
-				result += (std::size_t) 16;
+				result += (std::size_t)16;
 			}
 		}
 
 		return result;
+	}
+
+	/// <summary>
+	/// Create a buffer of material elements to be passed to the shader.
+	/// </summary>
+	/// <returns>Pointer to a ID3D11Buffer object.</returns>
+	ID3D11Buffer* CreateConstantsBuffer(ID3D11Device* dev, ID3D11DeviceContext* devcon) {
+		char* data = new char[pShader->numberOfElements];
+		for (int i = 0; i < pShader->numberOfElements; i++){
+			data[i] = **(elementsArray + i);
+		}
+
+		ID3D11Buffer* buffer;
+
+		D3D11_BUFFER_DESC bd;
+		ZeroMemory(&bd, sizeof(D3D11_BUFFER_DESC));                                           // Clear the buffer description struct
+
+		bd.Usage = D3D11_USAGE_DYNAMIC;                                                       // Access from CPU and GPU
+		bd.ByteWidth = this->GetSizeOfElementsArray();                                       // Set the byte width of the buffer
+		bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;                                            // Set as vertex buffer
+		bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+		dev->CreateBuffer(&bd, NULL, &buffer);
+
+		D3D11_MAPPED_SUBRESOURCE ms;                                                          // Mapped buffer
+		devcon->Map(buffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);                        // Map the buffer, preventing the GPU from using it while vertices are copied to it
+		memcpy(ms.pData, data, this->GetSizeOfElementsArray());                         // Copy the vertex data to the buffer
+		devcon->Unmap(buffer, NULL);                                                          // Unmap the buffer
+
+		return buffer;
 	}
 };

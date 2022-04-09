@@ -1,5 +1,10 @@
 #include "framework.h"
 
+#ifndef GAMEOBJECT_H
+#include "GameObject.h"
+#endif
+
+#include <thread>
 
 /// <summary>
 /// Starting point for win32 applications.
@@ -53,6 +58,21 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	ShowWindow(hWnd, cmdShow);
 
+	// Create an instance of the game engine
+	pGameEngine = new GameEngine(hWnd);
+	// Start the physics frame thread
+	bool* physicsActive = (bool*) malloc(sizeof(bool));
+	*physicsActive = true;
+	PhysicsThreadParams physicsThreadParams = {pGameEngine, physicsActive};
+	auto physicsFrameThreadFunction = [](PhysicsThreadParams params) {
+		while (*(params.active)) {
+			params.pGameEngine->PhysicsFrame();
+			std::this_thread::sleep_for(std::chrono::milliseconds(5));
+		}
+	};
+
+	std::thread physicsThread(physicsFrameThreadFunction, physicsThreadParams);
+
 	// A message is an event that is passed to the application for handling,
 	// for example, resizing the window, or clicking the exit button.
 	MSG msg;
@@ -68,6 +88,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				break;
 			}
 
+		}
+		else {
+			pGameEngine->RenderingFrame();
 		}
 	}
 

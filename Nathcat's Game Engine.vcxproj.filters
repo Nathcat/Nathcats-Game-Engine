@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\BaseComponents">
+      <UniqueIdentifier>{6960678b-0a41-4197-8e76-a9e3fa8aac3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shaders">
+      <UniqueIdentifier>{e60a0951-c397-4ced-8651-d67cf3399635}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TestComponents">
+      <UniqueIdentifier>{921132c0-077c-4b3c-8a6e-699db02e4278}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -30,17 +39,11 @@
     <ClInclude Include="Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MeshRenderer.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="RenderingEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="GameEngine.h">
       <Filter>Header Files</Filter>
@@ -58,7 +61,16 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\BaseComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderer.h">
+      <Filter>Source Files\BaseComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Source Files\BaseComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialSetup.h">
+      <Filter>Source Files\TestComponents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -78,5 +90,10 @@
     <Image Include="Nathcat%27s Game Engine.ico">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="default.shader">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
