@@ -54,10 +54,4 @@ public:
 			i += 3;
 		}
 	}
-
-	/// <summary>
-	/// Create a vertex buffer that DirectX can use in rendering.
-	/// </summary>
-	/// <returns>ID3D10Buffer containing vertices</returns>
-	ID3D10Buffer CreateVertexBuffer();
 };

@@ -6,6 +6,14 @@
 #include "GameObject.h"
 #endif
 
+#ifndef MESHRENDERER_H
+#include "MeshRenderer.h"
+#endif
+
+#ifndef CAMERA_H
+#include "Camera.h"
+#endif
+
 #include <vector>
 
 
@@ -17,6 +25,7 @@ public:
 	IDXGISwapChain* swapchain;                // DXGI swapchain
 	ID3D11RenderTargetView* backbuffer;       // The backbuffer render target
 	D3D11_VIEWPORT viewport;                  // The viewport
+	Camera camera;                            // Active camera
 
 	/// <summary>
 	/// Constructor with windowHandle parameter.
@@ -88,12 +97,39 @@ public:
 
 	/// <summary>
 	/// Render a frame to the render target.
-	/// 
-	/// TODO
-	/// 
-	/// Required tasks:
-	///  - MeshRenderer class
-	///  - Matrix transforms
 	/// </summary>
-	void RenderFrame(std::vector<GameObject> gameObjects);
+	void RenderFrame(std::vector<GameObject> gameObjects) {
+		for (int i = 0; i < gameObjects.size(); i++) {
+			GameObject gameObject = gameObjects.at(i);
+			Component* component = gameObject.GetComponent<MeshRenderer>();
+			MeshRenderer* meshRenderer;
+
+			if (component != nullptr) {
+				meshRenderer = (MeshRenderer*) component;
+			}
+			else {
+				continue;
+			}
+
+			Transform* transform = (Transform*)gameObject.GetComponent<Transform>();
+
+			ID3D11Buffer* vertexBuffer = meshRenderer->CreateVertexBuffer(dev, devcon);
+			ID3D11Buffer* transformMatricesBuffer = meshRenderer->CreateTransformMatricesBuffer(*transform, camera, dev, devcon);
+			ID3D11Buffer* materialConstantsBuffer = meshRenderer->material->CreateConstantsBuffer(dev, devcon);
+
+			meshRenderer->material->pShader->SetAsActiveShader(devcon);
+			devcon->VSSetConstantBuffers(0, 1, &transformMatricesBuffer);
+			devcon->PSSetConstantBuffers(1, 1, &materialConstantsBuffer);
+
+			UINT stride = meshRenderer->material->GetSizeOfElementsArray();
+			UINT offset = 0;
+			devcon->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+			devcon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+			devcon->Draw(meshRenderer->mesh->numberOfVertices, 0);
+
+			// Render the back buffer to the screen
+			swapchain->Present(0, 0);
+		}
+	}
 };

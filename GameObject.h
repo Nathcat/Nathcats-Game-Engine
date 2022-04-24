@@ -31,13 +31,13 @@ public:
 	/// Gets a component object from the array of components attached to this game object.
 	/// </summary>
 	/// <typeparam name="ComponentType">The Component type.</typeparam>
-	/// <returns>The component, or NULL</returns>
-	template<class ComponentType> Component GetComponent() {
-		Component result = NULL;
+	/// <returns>The component pointer, or a nullptr</returns>
+	template<class ComponentType> Component* GetComponent() {
+		Component* result = nullptr;
 
 		for (int i = 0; i < numberOfComponents; i++) {
 			if (isinstance<ComponentType>(*(pComponents + i))) {
-				result = *(pComponents + i);
+				result = pComponents + i;
 			}
 		}
 

@@ -2,6 +2,10 @@
 #include "framework.h"
 #endif
 
+#ifndef GAMEOBJECT_H
+#include "GameObject.h"
+#endif
+
 #define COMPONENT_H
 
 
@@ -11,8 +15,12 @@
 /// </summary>
 class Component {
 public:
+	GameObject* gameObject;         // The GameObject that this object is attached to
+
 	virtual ~Component() {};        // Destructor
-	Component() { Start(); };       // Constructor
+	Component() {                   // Constructor
+		Start(); 
+	};
 
 	virtual void Start() {};        // Start method
 	virtual void Update() {};       // Update method

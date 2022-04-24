@@ -13,6 +13,7 @@
 #endif
 
 #include <vector>
+#include <chrono>
 
 
 /// <summary>
@@ -56,6 +57,15 @@ public:
 	///  - Rigidbody component
 	/// </summary>
 	void PhysicsFrame() {
-
+		for (int i = 0; i < gameObjects.size(); i++) {
+			for (int x = 0; x < gameObjects.at(i).numberOfComponents; x++) {
+				(gameObjects.at(i).pComponents + x)->FixedUpdate();
+			}
+		}
 	};
+};
+
+struct PhysicsThreadParams {
+	GameEngine* pGameEngine;
+	bool* active;
 };
